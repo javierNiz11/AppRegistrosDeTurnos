@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import LandingPage from "../components/LandingPage/LandingPage";
+import QuienesSomos from "../components/LandingPage/QuienesSomos";
 import SignIn from "../components/SignIn/SignIn";
 import SignUp from "../components/SignUp/SignUp";
 import SignOut from "../components/SignOut";
@@ -18,6 +19,7 @@ const Router = () => {
     <>
       <Routes>
         <Route index element={<LandingPage />} />
+        <Route path="/quienes-somos" element={<QuienesSomos />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
 

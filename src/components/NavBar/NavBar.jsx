@@ -36,6 +36,10 @@ export default function NavBar() {
               Inicio
             </Link>
 
+            <Link to="/quienes-somos" className={linkClass}>
+              Quiénes Somos
+            </Link>
+
             {user && (
               <Link to="/turno" className={linkClass}>
                 Turno
@@ -123,6 +127,14 @@ export default function NavBar() {
               className="block rounded-md px-3 py-2 text-base font-medium text-[#fdf6e3] hover:bg-[#fdf6e3] hover:text-[#4b1c1c]"
             >
               Inicio
+            </Link>
+
+            <Link
+              to="/quienes-somos"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-md px-3 py-2 text-base font-medium text-[#fdf6e3] hover:bg-[#fdf6e3] hover:text-[#4b1c1c]"
+            >
+              Quiénes Somos
             </Link>
 
             {user && (

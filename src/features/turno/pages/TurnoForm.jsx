@@ -25,6 +25,15 @@ export default function TurnoForm() {
   });
 
   const [mensaje, setMensaje] = useState("");
+  const [step, setStep] = useState(1);
+  const [area, setArea] = useState("");
+
+  const AREAS = [
+    { id: "civil", label: "Derecho Civil", desc: "Contratos, daños, sucesiones" },
+    { id: "penal", label: "Derecho Penal", desc: "Defensas, denuncias, querellas" },
+    { id: "laboral", label: "Derecho Laboral", desc: "Despidos, trabajo en negro, ART" },
+    { id: "familia", label: "Derecho de Familia", desc: "Divorcios, alimentos, tenencia" },
+  ];
 
   useEffect(() => {
     if (!user) {
@@ -78,6 +87,8 @@ export default function TurnoForm() {
       apellido: formData.apellido,
       telefono: formData.telefono,
       email: formData.email,
+      userId: user.id,
+      area,
     });
 
     if (error) {
@@ -88,11 +99,13 @@ export default function TurnoForm() {
       setFormData({ nombre: "", apellido: "", telefono: "", email: user.email });
       setFecha("");
       setHora("");
+      setArea("");
+      setStep(1);
       const nuevosTurnos = await obtenerTurnosUsuario(user.email);
       setTurnos(nuevosTurnos);
     }
   };
-  
+
 
   const manejarCancelar = async (turnoId) => {
     console.log("Intentando borrar turno con id:", turnoId);
@@ -113,7 +126,7 @@ export default function TurnoForm() {
       setMensaje("Error inesperado al cancelar turno.");
     }
   };
-  
+
 
   const hoy = new Date().toISOString().split("T")[0];
 
@@ -121,70 +134,94 @@ export default function TurnoForm() {
     <div className="p-6 max-w-2xl mx-auto">
       <h2 className="text-xl font-bold mb-4">Reservar turno</h2>
 
-      <form onSubmit={pedirTurno} className="space-y-4">
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre"
-          value={formData.nombre}
-          onChange={manejarInput}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="apellido"
-          placeholder="Apellido"
-          value={formData.apellido}
-          onChange={manejarInput}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={manejarInput}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          type="tel"
-          name="telefono"
-          placeholder="Teléfono"
-          value={formData.telefono}
-          onChange={manejarInput}
-          className="w-full border p-2 rounded"
-        />
-
-        <input
-          type="date"
-          name="fecha"
-          value={fecha}
-          onChange={manejarCambioFecha}
-          min={hoy}
-          className="w-full border p-2 rounded"
-        />
-
-        <select
-          name="hora"
-          value={hora}
-          onChange={(e) => setHora(e.target.value)}
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Seleccioná una hora</option>
-          {horasDisponibles.map((h) => (
-            <option key={h} value={h}>
-              {h}
-            </option>
+      {step === 1 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {AREAS.map((a) => (
+            <button
+              key={a.id}
+              onClick={() => {
+                setArea(a.label);
+                setStep(2);
+              }}
+              className="border p-6 rounded-lg hover:bg-gray-50 transition text-left shadow-sm"
+            >
+              <h3 className="font-bold text-lg text-red-900">{a.label}</h3>
+              <p className="text-sm text-gray-600">{a.desc}</p>
+            </button>
           ))}
-        </select>
+        </div>
+      )}
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Confirmar turno
-        </button>
-      </form>
+      {step === 2 && (
+        <form onSubmit={pedirTurno} className="space-y-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-semibold text-gray-700">Área: {area}</span>
+            <button type="button" onClick={() => setStep(1)} className="text-sm text-blue-600 underline">Cambiar</button>
+          </div>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre"
+            value={formData.nombre}
+            onChange={manejarInput}
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="text"
+            name="apellido"
+            placeholder="Apellido"
+            value={formData.apellido}
+            onChange={manejarInput}
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={manejarInput}
+            className="w-full border p-2 rounded"
+          />
+          <input
+            type="tel"
+            name="telefono"
+            placeholder="Teléfono"
+            value={formData.telefono}
+            onChange={manejarInput}
+            className="w-full border p-2 rounded"
+          />
+
+          <input
+            type="date"
+            name="fecha"
+            value={fecha}
+            onChange={manejarCambioFecha}
+            min={hoy}
+            className="w-full border p-2 rounded"
+          />
+
+          <select
+            name="hora"
+            value={hora}
+            onChange={(e) => setHora(e.target.value)}
+            className="w-full border p-2 rounded"
+          >
+            <option value="">Seleccioná una hora</option>
+            {horasDisponibles.map((h) => (
+              <option key={h} value={h}>
+                {h}
+              </option>
+            ))}
+          </select>
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded w-full font-semibold"
+          >
+            Confirmar turno
+          </button>
+        </form>
+      )}
 
       {mensaje && <p className="mt-4 text-red-600">{mensaje}</p>}
 
@@ -195,24 +232,26 @@ export default function TurnoForm() {
         <p>No tenés turnos reservados.</p>
       ) : (
         <ul className="space-y-2">
-{turnos.map((turno) => (
-  <li
-    key={turno.id}
-    className="border p-2 rounded flex justify-between items-center"
-  >
-    <div>
-      <strong>{turno.fecha}</strong> - {turno.hora} hs
-      <br />
-      {turno.nombre} {turno.apellido} - {turno.telefono}
-    </div>
-    <button
-      onClick={() => manejarCancelar(turno.id)}
-      className="text-red-600 hover:underline"
-    >
-      Cancelar
-    </button>
-  </li>
-))}
+          {turnos.map((turno) => (
+            <li
+              key={turno.id}
+              className="border p-2 rounded flex justify-between items-center"
+            >
+              <div>
+                <strong>{turno.fecha}</strong> - {turno.hora} hs
+                <br />
+                <span className="text-sm text-gray-600 font-medium">{turno.area || "Consulta General"}</span>
+                <br />
+                {turno.nombre} {turno.apellido} - {turno.telefono}
+              </div>
+              <button
+                onClick={() => manejarCancelar(turno.id)}
+                className="text-red-600 hover:underline"
+              >
+                Cancelar
+              </button>
+            </li>
+          ))}
 
         </ul>
       )}
