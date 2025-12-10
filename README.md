@@ -4,10 +4,10 @@ Aplicación web para solicitar y gestionar turnos para un estudio jurídico. Inc
 
 ---
 
-## 👥 Desarrolladores
+## 👥 Desarrollador
 
-* Jordán Shokida
-  
+* **Javier Niz**
+
 ---
 
 ## 🚀 Requisitos
@@ -19,11 +19,11 @@ Aplicación web para solicitar y gestionar turnos para un estudio jurídico. Inc
 
 ## 🔮 Tecnologías
 
-* React + Vite
-* TailwindCSS
-* Supabase (Auth + DB)
-* Zustand (manejo de usuario local)
-* Netlify (despliegue)
+* **React + Vite**
+* **TailwindCSS**
+* **Supabase** (Auth + DB)
+* **Zustand** (manejo de usuario local)
+* **Netlify** (despliegue)
 
 ---
 
@@ -32,8 +32,8 @@ Aplicación web para solicitar y gestionar turnos para un estudio jurídico. Inc
 1. **Clonar el repositorio:**
 
 ```bash
-git clone https://github.com/tuusuario/lawyer-app.git
-cd lawyer-app
+git clone https://github.com/javierNiz11/AppRegistrosDeTurnos.git
+cd AppRegistrosDeTurnos
 ```
 
 2. **Instalar dependencias:**
@@ -63,23 +63,20 @@ npm run dev
 
 ## 🌐 Despliegue
 
-La app se encuentra desplegada en **Netlify**. 
-
----
-
-https://estudio-juridico-app.netlify.app/
+La app se encuentra desplegada en **Netlify**.
 
 ---
 
 ## ✅ Funcionalidades principales
 
-* Registro e inicio de sesión (Supabase Auth)
-* Solicitud de turnos con validación de disponibilidad
-* Cancelación de turnos
-* Historial de turnos por usuario
-* Protección de rutas
-* Animaciones y diseño responsive
-* PWA: sugerencia de instalación
+* **Registro e inicio de sesión** (Supabase Auth)
+* **Solicitud de turnos** con validación de disponibilidad
+* **Selección de Área** (Civil, Penal, Laboral, etc.)
+* **Cancelación de turnos**
+* **Historial de turnos** por usuario
+* **Protección de rutas**
+* **Animaciones y diseño responsive**
+* **PWA**: sugerencia de instalación
 
 ---
 
@@ -96,6 +93,8 @@ https://estudio-juridico-app.netlify.app/
 | apellido | text |
 | telefono | text |
 | email    | text |
+| user_id  | uuid |
+| area     | text |
 
 ### Políticas:
 
